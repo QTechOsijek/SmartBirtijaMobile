@@ -11,7 +11,8 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/Feather';
+import { Icon as IconFM } from './icons';
 import { addCatalog } from '../redux/actions';
 import _ from 'lodash';
 
@@ -19,19 +20,13 @@ export class ListOfCategories extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       headerLeft: (
-        <Button
+        <Icon.Button
           onPress={() => navigation.navigate('DrawerOpen')}
-          icon={
-            <Icon
-              name='menu'
-              size={15}
-            />
-          }
-          iconLeft
-          color="white"
-          buttonStyle={{
-            backgroundColor: "#fff"
-          }}
+          name='menu'  
+          color="black"
+          iconStyle={{ marginLeft: 8 }}
+          size={20}
+          backgroundColor= "#fff"
         />
       ),
     }
@@ -64,10 +59,11 @@ export class ListOfCategories extends Component {
   renderItem = (item) => {
     console.log(item)
     return (
-      <View style={{ marginHorizontal: 15, marginVertical: 5 }}>
+      <View style={{ marginHorizontal: 15, marginVertical: 5, flexDirection: 'row' }}>
         <TouchableOpacity onPress={this.pressed.bind(this, item)}>
           <Text style={styles.item}>{item}</Text>
         </TouchableOpacity>
+        <IconFM name="beer" size={25} />
       </View>
     );
   }
