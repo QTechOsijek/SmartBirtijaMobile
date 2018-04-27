@@ -1,4 +1,4 @@
-import { ADD_CATALOG, ADD_ITEM } from './types';
+import { ADD_CATALOG, ADD_ITEM, CLEAR_UP } from './types';
 import _ from 'lodash'
 import { combineReducers } from 'redux';
 
@@ -21,6 +21,8 @@ const cart = (state = {}, action) => {
         ...state,
         [action.item]: (state[action.item] || 0) + action.quantity,
       }
+    case CLEAR_UP:
+      return {}
     default:
       return state;
   }

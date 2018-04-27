@@ -1,4 +1,4 @@
-import { ADD_CATALOG, ADD_ITEM } from './types';
+import { ADD_CATALOG, ADD_ITEM, CLEAR_UP } from './types';
 
 export function addCatalog(catalog) {
   console.log(catalog);
@@ -15,4 +15,10 @@ export function addItem(item, quantity) {
     item,
     quantity,
   };
+}
+
+export function clearUp(){
+  return {
+    type: CLEAR_UP,
+  }
 }

@@ -6,13 +6,15 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Button as Butt
+  Button as Butt,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Header } from 'react-navigation';
 import _ from 'lodash';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
+import { clearUp } from '../redux/actions'
 
 
 export class Cart extends Component {
@@ -60,7 +62,7 @@ export class Cart extends Component {
   }
   sendData(){
     console.log(this.calculatePrice())
-    fetch('http://192.168.102.45:3001/api/orders',
+    fetch('http://www.smartbirtija.com/api/orders',
     {
       method: 'POST',
       headers: {
@@ -77,6 +79,8 @@ export class Cart extends Component {
     .then((response) => response.json())
     .then((responseJson) => {
       console.log(responseJson)
+      this.props.clearUp()
+      Alert.alert("Your order will be completed soon")
     })
     .catch((err) => console.err('E, jebiga ' + err));
   }
@@ -99,6 +103,10 @@ export class Cart extends Component {
           data={_.toPairs(this.props.cart)}
           renderItem={({item}) => this.renderItem(item)}
         />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 35, marginBottom: 15 }}>
+          <Text style={{ fontSize: 22 }}>Price: </Text>
+          <Text style={{ fontSize: 22 }}>{this.calculatePrice()}</Text>
+        </View>
         <Butt onPress={this.sendData} title="Order" />
       </View>
     );
@@ -122,4 +130,8 @@ const mapStateToProps = (state) => {
   return state
 };
 
-export default connect(mapStateToProps)(Cart)
+const mapDispatchToProps = {
+  clearUp
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart)

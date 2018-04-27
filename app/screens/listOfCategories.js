@@ -10,7 +10,7 @@ import {
   Modal
 } from 'react-native';
 import { connect } from 'react-redux';
-import {Button} from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/Entypo';
 import { addCatalog } from '../redux/actions';
 import _ from 'lodash';
@@ -36,7 +36,7 @@ export class ListOfCategories extends Component {
       ),
     }
   };
-  constructor(props){
+  constructor(props) {
     super(props)
     console.log(props)
     this.state = {
@@ -44,29 +44,31 @@ export class ListOfCategories extends Component {
     }
     this.renderItem = this.renderItem.bind(this)
   }
-  fetchCatalog(){
+  fetchCatalog() {
     fetch('http://www.smartbirtija.com/api/menu')
       .then((response) => response.json())
       .then(responseJson => {
         this.props.addCatalog(responseJson);
       });
   }
-  componentDidMount(){
+  componentDidMount() {
     this.fetchCatalog();
   }
-  pressed(prop){
+  pressed(prop) {
     console.log(this.props)
     this.props.navigation.navigate('Items', { name: prop })
   }
   setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+    this.setState({ modalVisible: visible });
   }
   renderItem = (item) => {
     console.log(item)
     return (
-      <TouchableOpacity onPress={this.pressed.bind(this, item)}>
-        <Text style={styles.item}>{item}</Text>
-      </TouchableOpacity>
+      <View style={{ marginHorizontal: 15, marginVertical: 5 }}>
+        <TouchableOpacity onPress={this.pressed.bind(this, item)}>
+          <Text style={styles.item}>{item}</Text>
+        </TouchableOpacity>
+      </View>
     );
   }
   render() {
@@ -74,7 +76,7 @@ export class ListOfCategories extends Component {
       <View style={styles.container}>
         <FlatList
           data={_.keys(this.props.catalog)}
-          renderItem={({item}) => this.renderItem(item)}
+          renderItem={({ item }) => this.renderItem(item)}
         />
       </View>
     );
@@ -83,12 +85,12 @@ export class ListOfCategories extends Component {
 
 const styles = StyleSheet.create({
   container: {
-   flex: 1,
-   paddingTop: 22
+    flex: 1,
+    paddingTop: 22
   },
   item: {
     padding: 10,
-    fontSize: 18,
+    fontSize: 20,
     height: 44,
   },
 })

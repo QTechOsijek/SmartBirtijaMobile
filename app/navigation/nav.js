@@ -5,7 +5,7 @@ import Cart from '../screens/cart'
 const CartS = StackNavigator({
   Cart: {
     navigationOptions: {
-     title: 'Cart',
+     title: 'Your Order',
     },
     screen: Cart,
   }
@@ -18,7 +18,7 @@ const Drawer = DrawerNavigator({
   Cart: {
     screen: CartS,
     navigationOptions: {
-      drawerLabel: "Cart"
+      drawerLabel: "Your Order"
     }
   }
 });

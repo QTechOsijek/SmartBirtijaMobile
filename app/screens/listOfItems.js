@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   TouchableHighlight,
   Modal,
-  Button
+  Button,
+  Alert
 } from 'react-native';
 import { connect } from 'react-redux';
 import { addItem } from '../redux/actions';
@@ -27,6 +28,7 @@ export class ListOfItems extends Component {
     this.renderItem = this.renderItem.bind(this);
     this.increase = this.increase.bind(this);
     this.decrease = this.decrease.bind(this);
+    this.addToCart = this.addToCart.bind(this);
   }
   pressed(prop){
     console.log(prop)
@@ -35,7 +37,10 @@ export class ListOfItems extends Component {
       item: prop,
     })
     this.setModalVisible(true)
-    this.props.addItem(prop, 1)
+  }
+  addToCart(){
+    this.props.addItem(this.state.item, this.state.quantity)
+    this.setModalVisible(false)
   }
   setModalVisible(visible){
     this.setState({modalVisible: visible})
@@ -58,10 +63,14 @@ export class ListOfItems extends Component {
   }
   renderItem = (item) => {
     console.log(item)
+    console.log(this.props.catalog[this.props.navigation.state.params.name][item])
     return (
-      <TouchableOpacity onPress={this.pressed.bind(this, item)}>
-        <Text style={styles.item}>{item}</Text>
-      </TouchableOpacity>
+      <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingHorizontal: 15, marginVertical: 5 }}>
+        <TouchableOpacity onPress={this.pressed.bind(this, item)}>
+          <Text style={styles.item}>{item}</Text>
+        </TouchableOpacity>
+        <Text style={styles.item}>{this.props.catalog[this.props.navigation.state.params.name][item]}</Text>
+      </View>
     );
   }
   render() {
@@ -78,19 +87,20 @@ export class ListOfItems extends Component {
         onRequestClose={() => {
           alert('Modal has been closed.');
         }}>
-          <View style={{marginTop: 22, flexDirection:'row', alignItems: 'space-between' }}>
-            <View>
-              <Text>{this.state.item}</Text>
-              <View style={{ flexDirection: 'row',}}>
-                <Button title="-" onPress={this.decrease} disabled={this.state.disabled} />
-                <Text>{this.state.quantity}</Text>
+          <View style={{ marginTop: 25, marginBottom: 200, flex: 1, alignItems: 'center' }}>
+            <View style={{ justifyContent: 'space-between', alignItems: 'center', flex: 1, width: 250 }}>
+              <Text style={{ fontSize: 25 }}>{this.state.item}</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: 100 }}>
+                <Button title="-" onPress={this.decrease} disabled={this.state.disabled} color="red" />
+                <Text style={{ fontSize: 21 }}>{this.state.quantity}</Text>
                 <Button title="+" onPress={this.increase} />
               </View>
+              <Button title="Add to your order" onPress={this.addToCart} />
               <TouchableHighlight
                 onPress={() => {
                   this.setModalVisible(!this.state.modalVisible);
                 }}>
-                <Text>Hide Modal</Text>
+                <Text>Exit</Text>
               </TouchableHighlight>
             </View>
           </View>
@@ -107,7 +117,7 @@ const styles = StyleSheet.create({
   },
   item: {
     padding: 10,
-    fontSize: 18,
+    fontSize: 20,
     height: 44,
   },
 })
